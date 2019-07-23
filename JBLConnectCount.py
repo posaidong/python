@@ -3,7 +3,7 @@
 import sys
 import os
 
-n = 1
+n = 3
 
 def parse(csvFile):
     file = open(csvFile, 'r')
@@ -47,13 +47,11 @@ def parse(csvFile):
 
         if mac not in jblConnectDict:
             jblConnectDict[mac] = 0
-        else:
-            jblConnectDict[mac] += connect
+        jblConnectDict[mac] += connect
 
         if mac not in speakphoneDict:
             speakphoneDict[mac] = 0
-        else:
-            speakphoneDict[mac] += headphone
+        speakphoneDict[mac] += headphone
 
     file.close()
 
