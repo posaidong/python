@@ -3,7 +3,7 @@
 import sys
 import os
 
-n = 3
+n = 1
 
 def parse(csvFile):
     file = open(csvFile, 'r')
@@ -68,7 +68,7 @@ def parse(csvFile):
 
     speakphoneCnt = 0;
     for k,v in speakphoneDict.items():
-        if v > n:
+        if v >= n:
             speakphoneCnt += 1
 
     print('jblConnectCnt=', jblConnectCnt)

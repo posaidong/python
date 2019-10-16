@@ -3,11 +3,9 @@
 import sys
 import os
 
-N=3
-
 def removeBiggectJBLConnect(input, biggestJBLConnect):
     file = open(input, 'r')
-    output = open('/Users/sunnysun/Desktop/out.csv', 'w')
+    output = open('/Users/sunnysun/Desktop/removed_max_jblconnect.csv', 'w')
     line = file.readline()
     title = line
     output.write(line)
@@ -30,7 +28,7 @@ def removeBiggectJBLConnect(input, biggestJBLConnect):
         if macAddress in biggestJBLConnect and biggestJBLConnect[macAddress] == jblConnect:
             print(i, ', remove ', macAddress, ',', jblConnect)
             i += 1
-            biggestJBLConnect[macAddress] = -1
+            biggestJBLConnect.pop(macAddress)
             continue
         else:
             output.write(line)
@@ -41,7 +39,6 @@ def parse(csvFile):
     line = file.readline()
 
     macDict = dict()
-    uploadTime = set()
     while True:
         line = file.readline()
         if not line:
@@ -59,57 +56,37 @@ def parse(csvFile):
         currenttimestamp = currenttimestamp.replace('Z', '')
         mobModel = params[44].replace('"', '')
 
-        # time = macAddress + ',' + currenttimestamp
-        # if time not in uploadTime:
-        #     uploadTime.add(time)
-        # else:  # ignore duplicated data
-        #     continue
-
         if macAddress not in macDict:
             macDict[macAddress] = []
         macDict[macAddress].append(jblConnect)
 
     file.close()
 
-    cnt = 0
-    macAddressTotal = 0
     i = 0
-
     biggestJBLConnect = dict()
 
     for k, v in macDict.items():
-        macAddressTotal += 1
         s = sorted(v, reverse=True)
         totalJBLConnect = 0
-        # remove the first one and JBLConnect > 100
+        # remove the first one
         if len(s) > 0:
-            start = 0
-            # if s[0] > 100:
-            #     start = 1
-            totalJBLConnect = sum(s[start:len(s)])
+            totalJBLConnect = sum(s)
 
         if totalJBLConnect > 0:
             print(i, ',' , k, ',', totalJBLConnect, ',', s)
             i += 1
+            biggestJBLConnect[k] = s[0]
         else:
             continue
 
-        if totalJBLConnect >= N:
-            cnt += 1
-            biggestJBLConnect[k] = s[0]
-            continue
-
-    print('jblconnect >= ', N, ',', cnt)
-    print('macAddressTotal,', macAddressTotal, ',', '{:.1%}'.format(cnt / macAddressTotal))
-
-    #removeBiggectJBLConnect(csvFile, biggestJBLConnect)
+    removeBiggectJBLConnect(csvFile, biggestJBLConnect)
 
 def main():
     # if len(sys.argv) <= 1:
     #     print("Usage: python ", os.path.basename(__file__), " path_to_csv")
     #     exit(-1)
 
-    csvFile = '/Users/sunnysun/Desktop/removed_max_jblconnect.csv'
+    csvFile = '/Users/sunnysun/Desktop/flip-4-android-app-version-4.3.214-4.5.223-fw-ver-3.9.0.csv'
     print('going to parse ', csvFile)
     parse(csvFile)
 
