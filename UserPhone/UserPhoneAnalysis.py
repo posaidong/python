@@ -24,13 +24,13 @@ def initDB(fileName):
 
 
 # Device model,Users
-def parseAndroid(csvFile):
+def parseAndroid(csvFile, totalUsers):
     file = open(csvFile, 'r')
     line = file.readline()
 
     # marketing name = Users
     phoneDict = dict()
-    totalUsers = 0
+    # totalUsers = 0
     while True:
         line = file.readline()
         if not line:
@@ -38,7 +38,7 @@ def parseAndroid(csvFile):
         params = line.split(',')
         model = params[0]
         users = int(params[1].strip())
-        totalUsers = totalUsers + users
+        # totalUsers = totalUsers + users
         if model in modelDict:
             marketingName = modelDict[model]
             if marketingName in phoneDict:
@@ -55,8 +55,8 @@ def parseAndroid(csvFile):
     topPhones = sorted(phoneDict.items(), key=lambda kv: kv[1], reverse=True)
     i = 0
     for tuple in topPhones:
-        print(i, ',', tuple[0], ',', tuple[1], ',', '{:.1%}'.format(tuple[1] / totalUsers))
-        file.write(tuple[0] + ',' + str(tuple[1]) + ',' + '{:.1%}'.format(tuple[1] / totalUsers) + '\n')
+        print(i, ',', tuple[0], ',', tuple[1], ',', '{:.2%}'.format(tuple[1] / totalUsers))
+        file.write(tuple[0] + ',' + str(tuple[1]) + ',' + '{:.2%}'.format(tuple[1] / totalUsers) + '\n')
         if i > 100:
             break
         i = i + 1
@@ -89,8 +89,8 @@ def parseIOS(csvFile):
 
     topPhones = sorted(phoneDict.items(), key=lambda kv: kv[1], reverse=True)
     for tuple in topPhones:
-        print(tuple[0], ',', tuple[1], ',', '{:.1%}'.format(tuple[1] / totalUsers))
-        file.write(tuple[0] + ',' + str(tuple[1]) + ',' + '{:.1%}'.format(tuple[1] / totalUsers) + '\n')
+        print(tuple[0], ',', tuple[1], ',', '{:.2%}'.format(tuple[1] / totalUsers))
+        file.write(tuple[0] + ',' + str(tuple[1]) + ',' + '{:.2%}'.format(tuple[1] / totalUsers) + '\n')
 
     file.close()
 
@@ -112,7 +112,7 @@ def main():
 
     if os.path.exists(fileName):
         initDB(fileName)
-        parseAndroid(androidInput)
+        parseAndroid(androidInput, 2634020)
 
 
 if __name__ == '__main__':

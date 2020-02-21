@@ -24,7 +24,7 @@ def parse(csvFile):
         playtime = 0
         try:
             jblConnect = int(params[7].replace('"', ''))
-            speakerphone = int(params[16].replace('"', ''))  # speakerphone times, not duration
+            speakerphone = int(params[16].replace('"', ''))  # speakerphone times, not duration,   Flip 5 no this feature
             durationJBLConnect = int(params[8].replace('"', ''))
             playtime = int(params[11].replace('"', ''))
         except:

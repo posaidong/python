@@ -1,4 +1,6 @@
 
+import Util.GoogleTranslate
+
 print("Hello")
 
 print("__name__ value: ", __name__)
@@ -25,6 +27,8 @@ def test():
 def main():
     print("python main function")
     test()
+    ret = Util.GoogleTranslate.translate('book')
+    print(ret)
 
 if __name__ == '__main__':
     main()
